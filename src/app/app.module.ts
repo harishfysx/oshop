@@ -18,6 +18,8 @@ import {RouterModule} from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { LogoutComponent } from './logout/logout.component';
+import {AuthService} from './services/auth.service';
+import {AuthGuardService} from './services/auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -42,18 +44,18 @@ import { LogoutComponent } from './logout/logout.component';
     NgbModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent},
-      { path: 'my/orders', component: MyOrdersComponent},
-      { path: 'products', component: ProductsComponent},
-      { path: 'shopping-cart', component: ShoppingCartComponent},
-      { path: 'check-out', component: CheckOutComponent},
-      { path: 'order-success', component: OrderSuccessComponent},
       { path: 'login', component: LoginComponent},
       { path: 'logout', component: LogoutComponent},
-      { path: 'admin/products', component: AdminProductsComponent},
-      { path: 'admin/orders', component: AdminOrdersComponent},
+      { path: 'products', component: ProductsComponent},
+      { path: 'shopping-cart', component: ShoppingCartComponent},
+      { path: 'my/orders', component: MyOrdersComponent, canActivate: [AuthGuardService]},
+      { path: 'check-out', component: CheckOutComponent, canActivate: [AuthGuardService]},
+      { path: 'order-success', component: OrderSuccessComponent, canActivate: [AuthGuardService]},
+      { path: 'admin/products', component: AdminProductsComponent, canActivate: [AuthGuardService]},
+      { path: 'admin/orders', component: AdminOrdersComponent, canActivate: [AuthGuardService]},
     ])
   ],
-  providers: [],
+  providers: [AuthService, AuthGuardService ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
